@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:airplane_app/ui/pages/get_started_page.dart';
 import 'package:flutter/material.dart';
 import './../../shared/theme.dart';
 

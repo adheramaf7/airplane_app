@@ -1,34 +1,12 @@
-import 'package:airplane_app/shared/theme.dart';
+import 'package:airplane_app/ui/widgets/custom_button_navigation.dart';
 import 'package:flutter/material.dart';
+import './../../shared/theme.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Widget iconButtonNav(String assetPath, {bool isActive = false}) => Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const SizedBox(),
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(assetPath),
-                ),
-              ),
-            ),
-            Container(
-              width: 30,
-              height: 2,
-              decoration: BoxDecoration(
-                  color: isActive ? kPrimaryColor : kTransparentColor,
-                  borderRadius: BorderRadius.circular(defaultRadius)),
-            )
-          ],
-        );
-
     Widget customButtonNavigation() => Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -43,10 +21,12 @@ class MainPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                iconButtonNav('assets/icon_home.png', isActive: true),
-                iconButtonNav('assets/icon_transaction.png', isActive: false),
-                iconButtonNav('assets/icon_payment.png', isActive: false),
-                iconButtonNav('assets/icon_setting.png', isActive: false),
+                CustomButtonNavigation(
+                    imagePath: 'assets/icon_home.png', isActive: true),
+                CustomButtonNavigation(
+                    imagePath: 'assets/icon_transaction.png'),
+                CustomButtonNavigation(imagePath: 'assets/icon_payment.png'),
+                CustomButtonNavigation(imagePath: 'assets/icon_setting.png'),
               ],
             ),
           ),

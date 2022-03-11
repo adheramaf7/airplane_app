@@ -1,3 +1,4 @@
+import 'package:airplane_app/ui/pages/home_page.dart';
 import 'package:airplane_app/ui/widgets/custom_button_navigation.dart';
 import 'package:flutter/material.dart';
 import './../../shared/theme.dart';
@@ -20,7 +21,7 @@ class MainPage extends StatelessWidget {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
+              children: const [
                 CustomButtonNavigation(
                     imagePath: 'assets/icon_home.png', isActive: true),
                 CustomButtonNavigation(
@@ -32,9 +33,16 @@ class MainPage extends StatelessWidget {
           ),
         );
 
+    Widget buildContent() {
+      return HomePage();
+    }
+
     return Scaffold(
       body: Stack(
-        children: [Text('Main Page'), customButtonNavigation()],
+        children: [
+          buildContent(),
+          customButtonNavigation(),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:airplane_app/ui/widgets/destination_card.dart';
+import 'package:airplane_app/ui/widgets/destination_tile.dart';
 import 'package:flutter/material.dart';
 import './../../shared/theme.dart';
 
@@ -84,10 +85,58 @@ class HomePage extends StatelessWidget {
           ),
         );
 
+    Widget newDestinations() => Container(
+          margin: EdgeInsets.only(
+              top: 30, left: defaultMargin, right: defaultMargin, bottom: 120),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'New This Year',
+                style: blackTextStyle.copyWith(
+                  fontSize: 18,
+                  fontWeight: semiBold,
+                ),
+              ),
+              const DestinationTile(
+                title: 'Danau Beratan',
+                city: 'Singaraja',
+                imagePath: 'assets/image_destination6.png',
+                rating: 4.6,
+              ),
+              const DestinationTile(
+                title: 'Sydney Opera',
+                city: 'Australia',
+                imagePath: 'assets/image_destination7.png',
+                rating: 4.7,
+              ),
+              const DestinationTile(
+                title: 'Roma kelapa',
+                city: 'Italy',
+                imagePath: 'assets/image_destination8.png',
+                rating: 4.9,
+              ),
+              const DestinationTile(
+                title: 'Payung Teduh',
+                city: 'Singapore',
+                imagePath: 'assets/image_destination9.png',
+                rating: 4.9,
+              ),
+              const DestinationTile(
+                title: 'Hill',
+                city: 'Monaco',
+                imagePath: 'assets/image_destination10.png',
+                rating: 4.9,
+              ),
+            ],
+          ),
+        );
+
     return ListView(
       children: [
         header(),
         popularDestination(),
+        newDestinations(),
       ],
     );
   }

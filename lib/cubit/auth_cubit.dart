@@ -1,5 +1,6 @@
 import 'package:airplane_app/models/user.dart';
 import 'package:airplane_app/services/auth_service.dart';
+import 'package:airplane_app/services/user_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -22,9 +23,42 @@ class AuthCubit extends Cubit<AuthState> {
 
       emit(AuthSuccess(user));
     } catch (e) {
-      print(e.toString());
+      emit(AuthFailed(e.toString()));
+    }
+  }
 
-      emit(AuthFailed('Registrasi Gagal'));
+  void signOut() async {
+    try {
+      emit(AuthLoading());
+
+      await AuthService().signOut();
+
+      emit(AuthInitial());
+    } catch (e) {
+      emit(AuthFailed(e.toString()));
+    }
+  }
+
+  void getCurrentUser(String id) async {
+    try {
+      UserModel user = await UserService().getUserById(id);
+
+      emit(AuthSuccess(user));
+    } catch (e) {
+      emit(AuthFailed(e.toString()));
+    }
+  }
+
+  void signIn({required String email, required String password}) async {
+    try {
+      emit(AuthLoading());
+
+      UserModel user =
+          await AuthService().signIn(email: email, password: password);
+
+      emit(AuthSuccess(user));
+    } catch (e) {
+      emit(AuthFailed(e.toString()));
     }
   }
 }

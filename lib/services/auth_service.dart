@@ -3,7 +3,7 @@ import 'package:airplane_app/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<UserModel> signUp({
     required String email,
@@ -12,7 +12,7 @@ class AuthService {
     String hobby = '',
   }) async {
     try {
-      UserCredential credential = await auth.createUserWithEmailAndPassword(
+      UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
       UserModel user = UserModel(
@@ -25,6 +25,28 @@ class AuthService {
       await UserService().setUser(user);
 
       return user;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<UserModel> signIn(
+      {required String email, required String password}) async {
+    try {
+      UserCredential credential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      UserModel user = await UserService().getUserById(credential.user!.uid);
+
+      return user;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await _auth.signOut();
     } catch (e) {
       throw e;
     }

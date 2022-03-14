@@ -5,32 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import './../../shared/theme.dart';
 
-class SignupPage extends StatelessWidget {
-  SignupPage({Key? key}) : super(key: key);
+class SigninPage extends StatelessWidget {
+  SigninPage({Key? key}) : super(key: key);
 
-  final TextEditingController nameController = TextEditingController(text: '');
   final TextEditingController emailController = TextEditingController(text: '');
   final TextEditingController passwordController =
       TextEditingController(text: '');
-  final TextEditingController hobbyController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
     Widget title() => Container(
           margin: const EdgeInsets.only(top: 30),
           child: Text(
-            'Join us and get\nyour next journey',
+            'Sign In With Your\nExisting Account',
             style: blackTextStyle.copyWith(fontSize: 24, fontWeight: semiBold),
           ),
         );
 
     Widget inputSection() {
-      Widget nameInput() => CustomTextFormField(
-            title: 'Full Name',
-            hintText: 'Enter your full name',
-            controller: nameController,
-          );
-
       Widget emailInput() => CustomTextFormField(
             title: 'Email',
             hintText: 'Enter your email',
@@ -44,17 +36,11 @@ class SignupPage extends StatelessWidget {
             controller: passwordController,
           );
 
-      Widget hobbyInput() => CustomTextFormField(
-            title: 'Hobby',
-            hintText: 'Enter your hobby',
-            controller: hobbyController,
-          );
-
       Widget submitButton() => BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, '/bonus', (route) => false);
+                    context, '/main', (route) => false);
               } else if (state is AuthFailed) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -70,13 +56,12 @@ class SignupPage extends StatelessWidget {
               }
 
               return CustomButton(
-                title: 'Get Started',
+                title: 'Sign In',
                 onPressed: () {
-                  context.read<AuthCubit>().signUp(
-                      email: emailController.text,
-                      password: passwordController.text,
-                      name: nameController.text,
-                      hobby: hobbyController.text);
+                  context.read<AuthCubit>().signIn(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
                 },
               );
             },
@@ -90,26 +75,20 @@ class SignupPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(defaultRadius),
         ),
         child: Column(
-          children: [
-            nameInput(),
-            emailInput(),
-            passwordInput(),
-            hobbyInput(),
-            submitButton()
-          ],
+          children: [emailInput(), passwordInput(), submitButton()],
         ),
       );
     }
 
-    Widget signinButton() => GestureDetector(
+    Widget signupButton() => GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, '/signin');
+            Navigator.pushNamed(context, '/signup');
           },
           child: Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(top: 30, bottom: 50),
             child: Text(
-              'Have an account? Sign In.',
+              'Don\'t have an account? Sign Up.',
               style: greyTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: light,
@@ -126,7 +105,7 @@ class SignupPage extends StatelessWidget {
           children: [
             title(),
             inputSection(),
-            signinButton(),
+            signupButton(),
           ],
         ),
       ),

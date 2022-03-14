@@ -2,6 +2,7 @@ import 'package:airplane_app/cubit/auth_cubit.dart';
 import 'package:airplane_app/cubit/page_cubit.dart';
 import 'package:airplane_app/ui/pages/bonus_page.dart';
 import 'package:airplane_app/ui/pages/main_page.dart';
+import 'package:airplane_app/ui/pages/signin_page.dart';
 import 'package:airplane_app/ui/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => const SplashPage(),
           '/get-started': (context) => const GetStartedPage(),
           '/signup': (context) => SignupPage(),
+          '/signin': (context) => SigninPage(),
           '/bonus': (context) => const BonusPage(),
           '/main': (context) => const MainPage(),
         },

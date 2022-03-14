@@ -1,5 +1,6 @@
 import 'package:airplane_app/cubit/auth_cubit.dart';
 import 'package:airplane_app/cubit/destination_cubit.dart';
+import 'package:airplane_app/models/destinaton_model.dart';
 import 'package:airplane_app/ui/widgets/destination_card.dart';
 import 'package:airplane_app/ui/widgets/destination_tile.dart';
 import 'package:flutter/material.dart';
@@ -72,38 +73,19 @@ class _HomePageState extends State<HomePage> {
           },
         );
 
-    Widget popularDestination() => Container(
+    Widget popularDestination(List<DestinationModel> destinations) => Container(
           margin: const EdgeInsets.only(top: 30),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: const [
-                DestinationCard(
-                    title: 'Lake Ciliwung',
-                    city: 'Tangerang',
-                    rating: 4.8,
-                    imagePath: 'assets/image_destination1.png'),
-                DestinationCard(
-                    title: 'White House',
-                    city: 'Spain',
-                    rating: 4.2,
-                    imagePath: 'assets/image_destination2.png'),
-                DestinationCard(
-                    title: 'Hill Heyo',
-                    city: 'Monaco',
-                    rating: 5.0,
-                    imagePath: 'assets/image_destination3.png'),
-                DestinationCard(
-                    title: 'Menara',
-                    city: 'Japan',
-                    rating: 4.0,
-                    imagePath: 'assets/image_destination4.png'),
-                DestinationCard(
-                    title: 'Payung Teduh',
-                    city: 'Singapore',
-                    rating: 4.7,
-                    imagePath: 'assets/image_destination5.png'),
-              ],
+              children: destinations
+                  .map((destination) => DestinationCard(
+                        title: destination.name,
+                        city: destination.city,
+                        imagePath: destination.imageUrl,
+                        rating: destination.rating,
+                      ))
+                  .toList(),
             ),
           ),
         );
@@ -171,7 +153,7 @@ class _HomePageState extends State<HomePage> {
           return ListView(
             children: [
               header(),
-              popularDestination(),
+              popularDestination(state.destinations),
               newDestinations(),
             ],
           );

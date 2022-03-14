@@ -41,7 +41,7 @@ class DestinationCard extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 20),
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(imagePath),
+                  image: NetworkImage(imagePath),
                 ),
                 borderRadius: BorderRadius.circular(defaultRadius),
               ),

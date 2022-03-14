@@ -1,4 +1,4 @@
-import 'package:airplane_app/models/user.dart';
+import 'package:airplane_app/models/user_model.dart';
 import 'package:airplane_app/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

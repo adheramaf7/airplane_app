@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
           ),
         );
 
-    Widget newDestinations() => Container(
+    Widget newDestinations(List<DestinationModel> destinations) => Container(
           margin: EdgeInsets.only(
               top: 30, left: defaultMargin, right: defaultMargin, bottom: 120),
           child: Column(
@@ -103,36 +103,14 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: semiBold,
                 ),
               ),
-              const DestinationTile(
-                title: 'Danau Beratan',
-                city: 'Singaraja',
-                imagePath: 'assets/image_destination6.png',
-                rating: 4.6,
-              ),
-              const DestinationTile(
-                title: 'Sydney Opera',
-                city: 'Australia',
-                imagePath: 'assets/image_destination7.png',
-                rating: 4.7,
-              ),
-              const DestinationTile(
-                title: 'Roma kelapa',
-                city: 'Italy',
-                imagePath: 'assets/image_destination8.png',
-                rating: 4.9,
-              ),
-              const DestinationTile(
-                title: 'Payung Teduh',
-                city: 'Singapore',
-                imagePath: 'assets/image_destination9.png',
-                rating: 4.9,
-              ),
-              const DestinationTile(
-                title: 'Hill',
-                city: 'Monaco',
-                imagePath: 'assets/image_destination10.png',
-                rating: 4.9,
-              ),
+              ...destinations
+                  .map((destination) => DestinationTile(
+                        title: destination.name,
+                        city: destination.city,
+                        imagePath: destination.imageUrl,
+                        rating: destination.rating,
+                      ))
+                  .toList(),
             ],
           ),
         );
@@ -154,7 +132,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               header(),
               popularDestination(state.destinations),
-              newDestinations(),
+              newDestinations(state.destinations),
             ],
           );
         }

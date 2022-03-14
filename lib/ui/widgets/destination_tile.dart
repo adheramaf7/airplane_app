@@ -40,7 +40,7 @@ class DestinationTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(defaultRadius),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(imagePath),
+                  image: NetworkImage(imagePath),
                 ),
               ),
             ),

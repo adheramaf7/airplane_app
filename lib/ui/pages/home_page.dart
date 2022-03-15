@@ -80,10 +80,7 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: destinations
                   .map((destination) => DestinationCard(
-                        title: destination.name,
-                        city: destination.city,
-                        imagePath: destination.imageUrl,
-                        rating: destination.rating,
+                        destination: destination,
                       ))
                   .toList(),
             ),
@@ -105,10 +102,7 @@ class _HomePageState extends State<HomePage> {
               ),
               ...destinations
                   .map((destination) => DestinationTile(
-                        title: destination.name,
-                        city: destination.city,
-                        imagePath: destination.imageUrl,
-                        rating: destination.rating,
+                        destination: destination,
                       ))
                   .toList(),
             ],

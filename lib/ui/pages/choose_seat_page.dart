@@ -1,9 +1,11 @@
 import 'package:airplane_app/cubit/seat_cubit.dart';
 import 'package:airplane_app/models/destinaton_model.dart';
 import 'package:airplane_app/models/transaction_model.dart';
+import 'package:airplane_app/services/auth_service.dart';
 import 'package:airplane_app/ui/pages/checkout_page.dart';
 import 'package:airplane_app/ui/widgets/custom_button.dart';
 import 'package:airplane_app/ui/widgets/seat_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -296,6 +298,7 @@ class _ChooseSeatPageState extends State<ChooseSeatPage> {
                 title: 'Continue to Checkout',
                 onPressed: () {
                   final TransactionModel transaction = TransactionModel(
+                    userId: AuthService().getCurrentUserId()!,
                     destination: widget.destination,
                     travelerCount: state.length,
                     selectedSeats: state,

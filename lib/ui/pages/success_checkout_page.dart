@@ -1,4 +1,6 @@
+import 'package:airplane_app/cubit/auth_cubit.dart';
 import 'package:airplane_app/cubit/page_cubit.dart';
+import 'package:airplane_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import './../../shared/theme.dart';
@@ -45,7 +47,10 @@ class SuccessCheckoutPage extends StatelessWidget {
           CustomButton(
             title: 'My Bookings',
             onPressed: () {
+              String userId = AuthService().getCurrentUserId()!;
+
               context.read<PageCubit>().setPage(1);
+              context.read<AuthCubit>().getCurrentUser(userId);
               Navigator.pushNamedAndRemoveUntil(
                   context, '/main', (route) => false);
             },

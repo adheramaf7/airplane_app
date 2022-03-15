@@ -1,4 +1,5 @@
 import 'package:airplane_app/cubit/transaction_cubit.dart';
+import 'package:airplane_app/services/auth_service.dart';
 import 'package:airplane_app/ui/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,8 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   @override
   void initState() {
-    context.read<TransactionCubit>().getTransactions();
+    String userId = AuthService().getCurrentUserId()!;
+    context.read<TransactionCubit>().getTransactionByUser(userId);
     super.initState();
   }
 
@@ -44,7 +46,10 @@ class _TransactionPageState extends State<TransactionPage> {
             return Center(
               child: Text(
                 'Anda belum melakukan transaksi',
-                style: redTextStyle,
+                style: blackTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: medium,
+                ),
               ),
             );
           }

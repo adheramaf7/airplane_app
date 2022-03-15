@@ -20,12 +20,12 @@ class TransactionCubit extends Cubit<TransactionState> {
     }
   }
 
-  void getTransactions() async {
+  void getTransactionByUser(String userId) async {
     try {
       emit(TransactionLoading());
 
       List<TransactionModel> transctions =
-          await TransactionService().getTransactions();
+          await TransactionService().getTransactionsByUser(userId);
 
       emit(TransactionFetchSuccess(transctions));
     } catch (e) {

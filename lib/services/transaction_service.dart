@@ -1,4 +1,6 @@
 import 'package:airplane_app/models/transaction_model.dart';
+import 'package:airplane_app/services/auth_service.dart';
+import 'package:airplane_app/services/user_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TransactionService {
@@ -7,7 +9,11 @@ class TransactionService {
 
   Future<void> createTransaction(TransactionModel transaction) async {
     try {
+      await UserService()
+          .cutBalance(transaction.userId, transaction.grandTotal);
+
       _transactionReference.add({
+        'userId': transaction.userId,
         'destination': transaction.destination.toJson(),
         'travelerCount': transaction.travelerCount,
         'selectedSeats': transaction.selectedSeats.toList(),
@@ -17,22 +23,23 @@ class TransactionService {
         'grandTotal': transaction.grandTotal,
       });
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
-  Future<List<TransactionModel>> getTransactions() async {
+  Future<List<TransactionModel>> getTransactionsByUser(String userId) async {
     try {
-      QuerySnapshot result = await _transactionReference.get();
+      QuerySnapshot result =
+          await _transactionReference.where('userId', isEqualTo: userId).get();
 
-      List<TransactionModel> destinations = result.docs
+      List<TransactionModel> transactions = result.docs
           .map((e) =>
               TransactionModel.fromJson(e.id, e.data() as Map<String, dynamic>))
           .toList();
 
-      return destinations;
+      return transactions;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

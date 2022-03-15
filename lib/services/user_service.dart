@@ -14,7 +14,7 @@ class UserService {
         'balance': user.balance,
       });
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -29,7 +29,23 @@ class UserService {
           hobby: snapshot['hobby'],
           balance: snapshot['balance']);
     } catch (e) {
-      throw e;
+      rethrow;
+    }
+  }
+
+  Future<void> cutBalance(String userId, int amount) async {
+    try {
+      UserModel user = await getUserById(userId);
+
+      if (user.balance < amount) {
+        throw Exception('Saldo tidak mencukupi.');
+      }
+
+      await _userReference
+          .doc(userId)
+          .update({'balance': user.balance - amount});
+    } catch (e) {
+      rethrow;
     }
   }
 }

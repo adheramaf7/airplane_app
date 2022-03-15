@@ -1,12 +1,18 @@
+import 'package:airplane_app/cubit/seat_cubit.dart';
+import 'package:airplane_app/models/destinaton_model.dart';
 import 'package:airplane_app/ui/pages/checkout_page.dart';
 import 'package:airplane_app/ui/widgets/custom_button.dart';
 import 'package:airplane_app/ui/widgets/seat_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import './../../shared/theme.dart';
 import './../../shared/enums.dart';
 
 class ChooseSeatPage extends StatelessWidget {
-  const ChooseSeatPage({Key? key}) : super(key: key);
+  final DestinationModel destination;
+
+  const ChooseSeatPage(this.destination, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +167,11 @@ class ChooseSeatPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SeatItem(
-                  status: SeatStatusEnum.unavailable,
+                  id: 'A$seatRowNumber',
+                  status: SeatStatusEnum.available,
                 ),
                 SeatItem(
+                  id: 'B$seatRowNumber',
                   status: SeatStatusEnum.available,
                 ),
                 Container(
@@ -177,35 +185,43 @@ class ChooseSeatPage extends StatelessWidget {
                   ),
                 ),
                 SeatItem(
-                  status: SeatStatusEnum.selected,
+                  id: 'C$seatRowNumber',
+                  status: SeatStatusEnum.available,
                 ),
                 SeatItem(
-                  status: SeatStatusEnum.selected,
+                  id: 'D$seatRowNumber',
+                  status: SeatStatusEnum.available,
                 ),
               ],
             ),
           );
 
-      Widget yourSeat() => Container(
+      Widget yourSeat(List<String> selectedSeats) => Container(
             margin: const EdgeInsets.only(top: 30),
             width: double.infinity,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   'Your seat',
                   style: greyTextStyle.copyWith(fontWeight: light),
                 ),
-                Text(
-                  'A3,B3',
-                  style:
-                      blackTextStyle.copyWith(fontSize: 16, fontWeight: medium),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Text(
+                    selectedSeats.isNotEmpty ? selectedSeats.join(', ') : '-',
+                    style: blackTextStyle.copyWith(
+                        fontSize: 16, fontWeight: medium),
+                    textAlign: TextAlign.right,
+                  ),
                 )
               ],
             ),
           );
 
-      Widget total() => Container(
+      Widget total(int seatCount) => Container(
             margin: const EdgeInsets.only(top: 16),
             width: double.infinity,
             child: Row(
@@ -216,34 +232,41 @@ class ChooseSeatPage extends StatelessWidget {
                   style: greyTextStyle.copyWith(fontWeight: light),
                 ),
                 Text(
-                  'Rp 450.000.000',
+                  NumberFormat.currency(
+                          locale: 'id', symbol: 'IDR ', decimalDigits: 0)
+                      .format(seatCount * destination.price),
                   style: primaryTextStyle.copyWith(
                       fontSize: 16, fontWeight: semiBold),
+                  // overflow: TextOv,
                 )
               ],
             ),
           );
 
-      return Container(
-        margin: const EdgeInsets.only(top: 30),
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
-        decoration: BoxDecoration(
-          color: kWhiteColor,
-          borderRadius: BorderRadius.circular(defaultRadius),
-        ),
-        child: Column(
-          children: [
-            seatIndicator(),
-            seatPicker(1),
-            seatPicker(2),
-            seatPicker(3),
-            seatPicker(4),
-            seatPicker(5),
-            yourSeat(),
-            total(),
-          ],
-        ),
+      return BlocBuilder<SeatCubit, List<String>>(
+        builder: (context, state) {
+          return Container(
+            margin: const EdgeInsets.only(top: 30),
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
+            decoration: BoxDecoration(
+              color: kWhiteColor,
+              borderRadius: BorderRadius.circular(defaultRadius),
+            ),
+            child: Column(
+              children: [
+                seatIndicator(),
+                seatPicker(1),
+                seatPicker(2),
+                seatPicker(3),
+                seatPicker(4),
+                seatPicker(5),
+                yourSeat(state),
+                total(state.length),
+              ],
+            ),
+          );
+        },
       );
     }
 

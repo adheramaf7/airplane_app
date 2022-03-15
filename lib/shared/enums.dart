@@ -1,3 +1,3 @@
 import 'dart:core';
 
-enum SeatStatusEnum { available, selected, unavailable }
+enum SeatStatusEnum { available, unavailable }

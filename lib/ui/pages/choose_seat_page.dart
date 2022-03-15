@@ -284,40 +284,89 @@ class _ChooseSeatPageState extends State<ChooseSeatPage> {
       );
     }
 
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        children: [
-          title(),
-          seatStatus(),
-          selectSeat(),
-          BlocBuilder<SeatCubit, List<String>>(
-            builder: (context, state) {
-              return CustomButton(
-                title: 'Continue to Checkout',
-                onPressed: () {
-                  final TransactionModel transaction = TransactionModel(
-                    userId: AuthService().getCurrentUserId()!,
-                    destination: widget.destination,
-                    travelerCount: state.length,
-                    selectedSeats: state,
-                    vat: 0.10,
-                    grandTotal:
-                        (state.length * widget.destination.price * (1 + 0.10))
-                            .toInt(),
-                  );
+    Future<bool> showConfirmDialog(BuildContext context) async {
+      final selectedSeatsCount = context.read<SeatCubit>().state.length;
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CheckoutPage(transaction)));
-                },
-                margin: const EdgeInsets.only(top: 30, bottom: 40),
-              );
-            },
-          )
-        ],
+      if (selectedSeatsCount == 0) {
+        return true;
+      }
+
+      final confirm = await showDialog<String>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          backgroundColor: kBackgroundColor,
+          title: Text(
+            'Peringatan',
+            style: redTextStyle.copyWith(fontWeight: semiBold),
+          ),
+          content: Text(
+            'Kursi yang anda pilih akan direset jika anda menutup halaman ini!',
+            style: blackTextStyle,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop('yes');
+              },
+              child: Text(
+                'Lanjutkan',
+                style: redTextStyle.copyWith(fontWeight: semiBold),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop('no');
+              },
+              child: Text(
+                'Tidak, tetap di halaman ini',
+                style: greenTextStyle.copyWith(fontWeight: semiBold),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      return confirm == 'yes';
+    }
+
+    return WillPopScope(
+      onWillPop: () async => await showConfirmDialog(context),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        body: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          children: [
+            title(),
+            seatStatus(),
+            selectSeat(),
+            BlocBuilder<SeatCubit, List<String>>(
+              builder: (context, state) {
+                return CustomButton(
+                  title: 'Continue to Checkout',
+                  onPressed: () {
+                    final TransactionModel transaction = TransactionModel(
+                      userId: AuthService().getCurrentUserId()!,
+                      destination: widget.destination,
+                      travelerCount: state.length,
+                      selectedSeats: state,
+                      vat: 0.10,
+                      grandTotal:
+                          (state.length * widget.destination.price * (1 + 0.10))
+                              .toInt(),
+                    );
+
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckoutPage(transaction)));
+                  },
+                  margin: const EdgeInsets.only(top: 30, bottom: 40),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }

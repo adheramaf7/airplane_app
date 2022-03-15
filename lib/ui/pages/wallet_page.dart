@@ -1,3 +1,4 @@
+import 'package:airplane_app/ui/widgets/wallet_card.dart';
 import 'package:flutter/material.dart';
 import './../../shared/theme.dart';
 
@@ -6,11 +7,8 @@ class WalletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Wallet Page',
-        style: blackTextStyle,
-      ),
+    return const Center(
+      child: WalletCard(),
     );
   }
 }

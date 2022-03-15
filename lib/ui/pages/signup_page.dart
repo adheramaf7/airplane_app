@@ -1,4 +1,5 @@
 import 'package:airplane_app/cubit/auth_cubit.dart';
+import 'package:airplane_app/ui/pages/bonus_page.dart';
 import 'package:airplane_app/ui/widgets/custom_button.dart';
 import 'package:airplane_app/ui/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -53,8 +54,7 @@ class SignupPage extends StatelessWidget {
       Widget submitButton() => BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/bonus', (route) => false);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BonusPage(state.user)), (route) => false);
               } else if (state is AuthFailed) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

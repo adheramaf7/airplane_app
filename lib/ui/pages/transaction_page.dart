@@ -30,15 +30,6 @@ class _TransactionPageState extends State<TransactionPage> {
           );
         }
 
-        if (state is TransactionFailed) {
-          return Center(
-            child: Text(
-              state.message,
-              style: redTextStyle,
-            ),
-          );
-        }
-
         if (state is TransactionFetchSuccess) {
           final transactions = state.transactions;
 

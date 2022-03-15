@@ -1,12 +1,13 @@
-import 'package:airplane_app/cubit/auth_cubit.dart';
+import 'package:airplane_app/models/user_model.dart';
 import 'package:airplane_app/ui/widgets/wallet_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/custom_button.dart';
 import './../../shared/theme.dart';
 
 class BonusPage extends StatelessWidget {
-  const BonusPage({Key? key}) : super(key: key);
+  final UserModel user;
+
+  const BonusPage(this.user, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class BonusPage extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const WalletCard(),
+          WalletCard(user),
           title(),
           subtitle(),
           CustomButton(

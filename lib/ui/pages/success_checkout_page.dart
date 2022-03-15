@@ -47,10 +47,7 @@ class SuccessCheckoutPage extends StatelessWidget {
           CustomButton(
             title: 'My Bookings',
             onPressed: () {
-              String userId = AuthService().getCurrentUserId()!;
-
               context.read<PageCubit>().setPage(1);
-              context.read<AuthCubit>().getCurrentUser(userId);
               Navigator.pushNamedAndRemoveUntil(
                   context, '/main', (route) => false);
             },

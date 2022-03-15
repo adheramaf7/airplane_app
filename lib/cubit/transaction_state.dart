@@ -12,7 +12,6 @@ class TransactionInitial extends TransactionState {}
 class TransactionLoading extends TransactionState {}
 
 class TransactionCreateSuccess extends TransactionState {}
-
 class TransactionFetchSuccess extends TransactionState {
   final List<TransactionModel> transactions;
 

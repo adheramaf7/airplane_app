@@ -50,7 +50,7 @@ class _TransactionPageState extends State<TransactionPage> {
           }
 
           return Container(
-            margin: const EdgeInsets.only(bottom: 100),
+            margin: const EdgeInsets.only(bottom: 110, top: 30),
             child: ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: defaultMargin),
               itemBuilder: (context, index) =>

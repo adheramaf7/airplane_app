@@ -13,7 +13,7 @@ class TransactionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 15),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
       decoration: BoxDecoration(
         color: kWhiteColor,

@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
 
     Widget newDestinations(List<DestinationModel> destinations) => Container(
           margin: EdgeInsets.only(
-              top: 30, left: defaultMargin, right: defaultMargin, bottom: 100),
+              top: 30, left: defaultMargin, right: defaultMargin, bottom: 110),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
           );
         }
 
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

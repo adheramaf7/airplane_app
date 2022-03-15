@@ -1,6 +1,8 @@
+import 'package:airplane_app/cubit/page_cubit.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import './../../shared/theme.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SuccessCheckoutPage extends StatelessWidget {
   const SuccessCheckoutPage({Key? key}) : super(key: key);
@@ -43,6 +45,7 @@ class SuccessCheckoutPage extends StatelessWidget {
           CustomButton(
             title: 'My Bookings',
             onPressed: () {
+              context.read<PageCubit>().setPage(1);
               Navigator.pushNamedAndRemoveUntil(
                   context, '/main', (route) => false);
             },

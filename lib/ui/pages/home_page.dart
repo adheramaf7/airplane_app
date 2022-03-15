@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
 
     Widget newDestinations(List<DestinationModel> destinations) => Container(
           margin: EdgeInsets.only(
-              top: 30, left: defaultMargin, right: defaultMargin, bottom: 120),
+              top: 30, left: defaultMargin, right: defaultMargin, bottom: 100),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

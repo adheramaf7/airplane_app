@@ -1,5 +1,6 @@
 import 'package:airplane_app/cubit/seat_cubit.dart';
 import 'package:airplane_app/models/destinaton_model.dart';
+import 'package:airplane_app/models/transaction_model.dart';
 import 'package:airplane_app/ui/pages/checkout_page.dart';
 import 'package:airplane_app/ui/widgets/custom_button.dart';
 import 'package:airplane_app/ui/widgets/seat_item.dart';
@@ -9,15 +10,26 @@ import 'package:intl/intl.dart';
 import './../../shared/theme.dart';
 import './../../shared/enums.dart';
 
-class ChooseSeatPage extends StatelessWidget {
+class ChooseSeatPage extends StatefulWidget {
   final DestinationModel destination;
 
   const ChooseSeatPage(this.destination, {Key? key}) : super(key: key);
 
   @override
+  State<ChooseSeatPage> createState() => _ChooseSeatPageState();
+}
+
+class _ChooseSeatPageState extends State<ChooseSeatPage> {
+  @override
+  void initState() {
+    context.read<SeatCubit>().resetSelectedSeat();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Widget title() => Container(
-          margin: EdgeInsets.only(top: 40),
+          margin: const EdgeInsets.only(top: 40),
           child: Text(
             'Select Your\nFavorite Seat',
             style: blackTextStyle.copyWith(fontSize: 24, fontWeight: semiBold),
@@ -234,7 +246,7 @@ class ChooseSeatPage extends StatelessWidget {
                 Text(
                   NumberFormat.currency(
                           locale: 'id', symbol: 'IDR ', decimalDigits: 0)
-                      .format(seatCount * destination.price),
+                      .format(seatCount * widget.destination.price),
                   style: primaryTextStyle.copyWith(
                       fontSize: 16, fontWeight: semiBold),
                   // overflow: TextOv,
@@ -278,13 +290,29 @@ class ChooseSeatPage extends StatelessWidget {
           title(),
           seatStatus(),
           selectSeat(),
-          CustomButton(
-            title: 'Continue to Checkout',
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CheckoutPage()));
+          BlocBuilder<SeatCubit, List<String>>(
+            builder: (context, state) {
+              return CustomButton(
+                title: 'Continue to Checkout',
+                onPressed: () {
+                  final TransactionModel transaction = TransactionModel(
+                    destination: widget.destination,
+                    travelerCount: state.length,
+                    selectedSeats: state,
+                    vat: 0.10,
+                    grandTotal:
+                        (state.length * widget.destination.price * (1 + 0.10))
+                            .toInt(),
+                  );
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CheckoutPage(transaction)));
+                },
+                margin: const EdgeInsets.only(top: 30, bottom: 40),
+              );
             },
-            margin: const EdgeInsets.only(top: 30, bottom: 40),
           )
         ],
       ),

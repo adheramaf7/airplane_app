@@ -54,8 +54,13 @@ class SignupPage extends StatelessWidget {
       Widget submitButton() => BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BonusPage(state.user)), (route) => false);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BonusPage(state.user)),
+                    (route) => false);
               } else if (state is AuthFailed) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: kRedColor,

@@ -42,6 +42,7 @@ class SigninPage extends StatelessWidget {
                 Navigator.pushNamedAndRemoveUntil(
                     context, '/main', (route) => false);
               } else if (state is AuthFailed) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: kRedColor,
